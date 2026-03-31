@@ -1,0 +1,347 @@
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Y2K Site</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  .grid-wrap {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 60%;
+    perspective: 300px;
+    perspective-origin: 50% 0%;
+    overflow: hidden;
+    z-index: 0;
+  }
+
+  .grid {
+    width: 100%;
+    height: 100%;
+    transform-origin: top center;
+    transform: rotateX(70deg);
+    background-image:
+      linear-gradient(to right, rgba(240, 230, 140, 0.7) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(240, 230, 140, 0.7) 1px, transparent 1px);
+    background-size: 80px 80px;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 40%);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 40%);
+  }
+
+  .scene {
+    position: relative;
+    width: 100vw;
+    height: calc(100vw * 676 / 1024);
+    max-height: 100vh;
+    max-width: calc(100vh * 1024 / 676);
+    margin: auto;
+    z-index: 1;
+  }
+
+  .scene img.bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    display: block;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .screen {
+    position: absolute;
+    left:   35.29%;
+    top:    29.93%;
+    width:  31.3%;
+    height: 41.5%;
+    border: none;
+    background: #c0c0c0;
+    overflow: hidden;
+  }
+
+  .screen iframe {
+    width: calc(100% + 17px);
+    height: 100%;
+    border: none;
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+  <div class="grid-wrap">
+    <div class="grid"></div>
+  </div>
+
+  <div class="scene">
+    <img class="bg" src="your-y2k-image.png" alt="y2k background">
+    <div class="screen">
+      <!-- album.html 을 같은 폴더에 두면 됩니다 -->
+      <iframe src="album.html" title="앨범 소개"></iframe>
+    </div>
+  </div>
+
+</body>
+</html>
+```
+
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>최애 앨범 소개</title>
+  <style>
+    @font-face {
+    font-family: 'DungGeunMo';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+      }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'DungGeunMo', sans-serif;
+    }
+
+    body {
+      background: #c0c0c0;
+      font-family: "Arial", sans-serif;
+      font-size: 12px;
+      color: #000;
+      padding: 8px;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+    body::-webkit-scrollbar { display: none; }
+
+    /* ── 헤더 ── */
+    header {
+      background: #000080;
+      color: #fff;
+      padding: 6px 8px;
+      margin-bottom: 8px;
+      border: 2px solid;
+      border-color: #fff #808080 #808080 #fff;
+    }
+
+    header h1 {
+      font-size: 14px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #ffff00;
+      text-shadow: 1px 1px #000;
+    }
+
+    .subtitle {
+      font-size: 10px;
+      color: #c0c0c0;
+      margin-top: 2px;
+    }
+
+    /* ── 공통 섹션 박스 ── */
+    section {
+      background: #c0c0c0;
+      border: 2px solid;
+      border-color: #fff #808080 #808080 #fff;
+      padding: 6px 8px;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-size: 11px;
+      font-weight: bold;
+      background: #000080;
+      color: #fff;
+      padding: 2px 6px;
+      margin-bottom: 6px;
+    }
+
+    /* ── 가사 ── */
+    .lyrics-box {
+      background: #fff;
+      border: 2px solid;
+      border-color: #808080 #fff #fff #808080;
+      padding: 6px;
+      line-height: 1.8;
+      font-family: "Times New Roman", serif;
+      font-size: 11px;
+    }
+
+    .highlight {
+      color: #ff00ff;
+      font-weight: bold;
+    }
+
+    /* ── 입덕 포인트 목록 ── */
+    #charm-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    #charm-list li {
+      padding: 3px 0 3px 14px;
+      font-size: 11px;
+      border-bottom: 1px dotted #808080;
+    }
+
+    #charm-list li::before {
+      content: "▶ ";
+      color: #000080;
+      font-size: 9px;
+    }
+
+    /* ── 트랙 테이블 ── */
+    #track-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+
+    #track-table th {
+      background: #000080;
+      color: #fff;
+      padding: 3px 6px;
+      text-align: left;
+      border: 1px solid #808080;
+    }
+
+    #track-table td {
+      padding: 3px 6px;
+      border: 1px solid #808080;
+    }
+
+    #track-table tbody tr:nth-child(even) {
+      background: #d4d0c8;
+    }
+
+    #track-table tbody tr:hover {
+      background: #000080;
+      color: #fff;
+    }
+
+    /* ── 버튼 ── */
+    footer {
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    .listen-btn {
+      background: #c0c0c0;
+      color: #000;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 4px 12px;
+      border: 2px solid;
+      border-color: #fff #808080 #808080 #fff;
+      cursor: pointer;
+    }
+
+    .listen-btn:hover {
+      background: #000080;
+      color: #ffff00;
+    }
+
+    .listen-btn:active {
+      border-color: #808080 #fff #fff #808080;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>'3조 플레이리스트'</h1>
+    <p class="subtitle">다채로운 매력으로 가득 찬 플레이리스트</p>
+  </header>
+
+  <section class="lyrics-section">
+    <h2>킬링 파트 가사</h2>
+    <div class="lyrics-box">
+      <p>Left side, right side, I can feel you</p>
+      <p class="highlight">따라오잖아 Pretty girls</p>
+      <p>Exclusive, exclusive,exclusive</p>
+    </div>
+  </section>
+
+  <section class="info-section">
+    <h2>입덕 포인트</h2>
+    <ul id="charm-list">
+      <li>하이퍼팝 기반의 신선하고 감각적인 비트로 2025년 주목받는 신예로 부상.</li>
+      <li>컴필레이션 앨범 등에서 강한 존재감을 드러내는 독특한 음색.</li>
+      <li>압구정 클럽 등 세련된 이미지를 음악과 비주얼에 담아냄.</li>
+    </ul>
+  </section>
+
+  <section class="track-section">
+    <h2>추천 플레이리스트</h2>
+    <table id="track-table">
+      <thead>
+        <tr>
+          <th>Track</th>
+          <th>곡명</th>
+          <th>Play Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>마브</td><td>물들이자</td><td>3:27</td></tr>
+        <tr><td>볼빨간 사춘기</td><td>우주를 줄게</td><td>3:35</td></tr>
+        <tr><td>NOWIMYOUNG</td><td>EXCLUSIVE</td><td>2:14</td></tr>
+        <tr><td>안예은</td><td>문어의 꿈</td><td>4:31</td></tr>
+        <tr><td>이한철</td><td>슈퍼스타</td><td>3:05</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer id="album-footer">
+    <button class="listen-btn">전곡 스밍하러 가기</button>
+  </footer>
+
+</body>
+</html>
+```
+
+### 참고 자료
+
+![](C:\Users\esunc\AppData\Roaming\marktext\images\2026-03-31-17-39-22-image.png)
+
+### 피그마에서 디자인
+
+![](C:\Users\esunc\AppData\Roaming\marktext\images\2026-03-31-17-31-13-image.png)
+
+### 완성본 png(background)
+
+![your-y2k-image.png](C:\Users\esunc\OneDrive\문서\FrontEnd\Y2K\your-y2k-image.png)
+
+### Background CSS Vaporwave
+
+<img src="https://img.freepik.com/free-vector/dark-background-with-purple-squares_1053-430.jpg?semt=ais_incoming&w=740&q=80" title="" alt="Vaporwave grid Vectors - Download Free High-Quality Vectors from Freepik |  Freepik" width="720">
+
+### 완성된 웹사이트 캡쳐
+
+![](C:\Users\esunc\AppData\Roaming\marktext\images\2026-03-31-17-28-42-image.png)
+
+### ai에게 도움 받은 것
+
+![](C:\Users\esunc\AppData\Roaming\marktext\images\2026-03-31-23-54-25-image.png)
+
+![](C:\Users\esunc\AppData\Roaming\marktext\images\2026-03-31-23-54-55-image.png)
+
+![](C:\Users\esunc\AppData\Roaming\marktext\images\2026-03-31-23-56-13-image.png)
+
+![](C:\Users\esunc\AppData\Roaming\marktext\images\2026-03-31-23-56-53-image.png)
+
+
